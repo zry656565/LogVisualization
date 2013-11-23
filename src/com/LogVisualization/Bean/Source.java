@@ -5,7 +5,16 @@ public class Source {
 	private String name;
 	private String url;
 	private String state;
+	private String username;
 	
+	public Source(int id, String name, String url, String state, String username) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.url = url;
+		this.state = state;
+		this.username = username;
+	}
 	public int getId() {
 		return id;
 	}
@@ -30,6 +39,10 @@ public class Source {
 	public void setState(String state) {
 		this.state = state;
 	}
-	
-	
+	public String getUsername() {
+		return username;
+	}
+	public void setUsername(String username) {
+		this.username = username;
+	}
 }

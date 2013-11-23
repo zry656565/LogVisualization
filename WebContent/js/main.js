@@ -21,6 +21,10 @@ var lineChartData = {
     ]
 
 }
-
 var myLine = new Chart(document.getElementById("canvas").getContext("2d")).Line(lineChartData);
 }
+$(document).ready(function(){
+    $('.col-lg-5 input').iCheck({
+        radioClass: 'iradio_flat-grey'
+    });
+});

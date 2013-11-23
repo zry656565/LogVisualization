@@ -1,13 +1,17 @@
 
-
 /* ==========================================================================
    Author's custom styles
    ========================================================================== */
 
+.iradio_flat-grey {
+    position: absolute;
+}
 
-
-
-
+.predict-select label {
+    margin-left: 30px;
+}
+ul{margin:0;padding:0;list-style:none}
+label{cursor:pointer}
 
 
 
