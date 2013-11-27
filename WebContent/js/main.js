@@ -28,3 +28,6 @@ $(document).ready(function(){
         radioClass: 'iradio_flat-grey'
     });
 });
+$(function () {
+    $('#para-tab a:first').tab('show');//初始化显示哪个tab
+})

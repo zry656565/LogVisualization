@@ -63,7 +63,7 @@ public class SourceDAO implements ISourceDAO {
 		}
 		
 		try {  
-			//sql for insert source
+			//sql for remove source
 			String sql = "DELETE FROM tb_source where id = " + id + ";";
 	              
 			Statement st = (Statement) conn.createStatement();
@@ -85,7 +85,7 @@ public class SourceDAO implements ISourceDAO {
 		}
 		
 		try {  
-			//sql for insert source
+			//sql for modify source
 			String sql = "UPDATE tb_source SET ";
 			//null_flag used for judging whether the three arguments are all null
 			boolean null_flag = false;
@@ -128,7 +128,7 @@ public class SourceDAO implements ISourceDAO {
 		}
 		
 		try {  
-			//sql for insert source
+			//sql for query source
 			String sql = "SELECT * from tb_source where username = '" + username + "';";
 	              
 			Statement st = (Statement) conn.createStatement();

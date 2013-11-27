@@ -32,6 +32,31 @@
   	<servlet-name>ConsoleServlet</servlet-name>
   	<url-pattern>/ConsoleServlet</url-pattern>
   </servlet-mapping>
+  
+  <servlet>
+  	<servlet-name>SourceUploadServlet</servlet-name>
+  	<servlet-class>com.LogVisualization.Servlet.SourceUploadServlet</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+  	<servlet-name>SourceUploadServlet</servlet-name>
+  	<url-pattern>/SourceUpload</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <display-name>DWR Servlet</display-name>
+    <servlet-name>dwr-invoker</servlet-name>  
+    <servlet-class>org.directwebremoting.servlet.DwrServlet</servlet-class>
+    <init-param>
+       <param-name>debug</param-name>
+       <param-value>true</param-value>
+    </init-param>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>dwr-invoker</servlet-name>
+    <url-pattern>/dwr/*</url-pattern>
+  </servlet-mapping>
 
   <display-name>Welcome to Log Visualization</display-name>
   <description>

@@ -1,0 +1,15 @@
+Log Visualization Java Web环境搭建指南
+by Jerry Zou
+
+首先，你要拥有以下几个东西：
+1.eclipse for javaee （链接（windows版）：http://pan.baidu.com/share/link?shareid=136514017&uk=2719465982）
+2.tomcat 7.0.47 (链接（windows版）：http://pan.baidu.com/share/link?shareid=145947224&uk=2719465982)
+
+接下来，你需要按一些步骤来搭建环境：
+1. 下面这个链接涵盖了你需要创建应用的所有过程，但是在打开这个链接之前，请先看第二条
+   http://wenku.baidu.com/link?url=FS0F92gLkYIG7dNOaWP3aaO0Y9DvZaKbLr-o3TM5cKlSOlwZVvFANLg95ir2W1uU9vKA-FCTSwK7X3pRvn39-m0_pYkS88d7WiQmk1V_V-K
+2. 你只需要完成创建java ee项目那一步即可。
+   创建完新项目以后，用LogVisualization文件夹下的src和webContent覆盖你创建好的项目里的这两个文件夹。（顺便把lib和testfile也拷进去）
+3. 覆盖好以后，你需要refresh你的项目，这时候会报错。因为jar包的依赖还没有加好。
+4. 把lib文件夹内所有的jar加入java build path的依赖。
+5. init_source.sql用于数据库建表，直接放到mySQL中运行即可。

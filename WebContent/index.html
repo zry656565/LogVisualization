@@ -24,6 +24,11 @@
         <script src="js/graphic/Chart.js"></script>
         <script src="js/main.js"></script>
         <script src="js/iCheck/jquery.icheck.js"></script>
+        
+        <script type='text/javascript' src='/LogVisualization/dwr/engine.js'></script>
+  		<script type='text/javascript' src='/LogVisualization/dwr/interface/Transmission.js'></script>
+    	<script type='text/javascript' src='/LogVisualization/dwr/util.js'></script>
+    	<script src="js/dwr_main.js"></script>
     </head>
     <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -41,6 +46,15 @@
             <li class="active"><a href="#">Home</a></li>
             <li><a href="#about">About</a></li>
             <li><a href="#contact">Contact</a></li>
+            <form class="navbar-form navbar-right">
+                <div class="form-group">
+                  <input type="text" placeholder="Email" class="form-control" id="username">
+                </div>
+                <div class="form-group">
+                  <input type="password" placeholder="Password" class="form-control" id="password">
+                </div>
+                <button type="submit" class="btn btn-success" id="login-submit">Sign in</button>
+          </form>
           </ul>
         </div>
       </div>
@@ -63,7 +77,7 @@
         </div>
         <div class="col-lg-5">
           <h2>Import Data</h2>
-          <table class="table">
+          <table class="table table-striped table-hover" id="data-table">
             <tr>
               <td>NAME</td>
               <td>Source URL</td>
@@ -92,20 +106,25 @@
 
       <div class="row">
           <div class="col-lg-7">
-              <h2>Console</h2>
-              <input type="text" class="col-sm-11" placeholder="Please input your instruction."/>
-              <br/><br/>
-              <div class="col-sm-11" style="border:1px solid grey;">
-              <p>
-                  $&nbsp; [Happy shell]<br/>
-                  $&nbsp; Hello, visitor.<br/>
-                  $&nbsp; Welcome to our log visualization beta.<br/>
-                  $&nbsp; You can type some code to see the picture you want.<br/>
-                  $&nbsp; Any question, try "-help"<br/>
-                  $&nbsp; Just enjoy it.<br/>
-                  $&nbsp; _<br/><br/><br/>
-              </p>
-              </div>
+              <h2>Parameter</h2>
+              <ul id="para-tab" class="nav nav-tabs">
+                  <li class="active"><a href="#console" data-toggle="tab">Console</a></li>
+                  <li><a href="#standard" data-toggle="tab">Standard</a></li>
+                  <div class="tab-content">
+                      <div class="tab-pane fade in" id="standard">
+                          <div class="col-sm-11" style="border:1px solid grey;">
+                              <p>
+                                  [HELLO]
+                              </p>
+                          </div>
+                      </div>
+                      <div class="tab-pane active fade in" id="console">
+                          <input type="text" class="col-sm-11" id='console_input' placeholder="Please input your instruction."/>
+                          <div class="col-sm-11" style="border:1px solid grey; height:100px;" id="console_output">
+                          </div>
+                      </div>
+                  </div>
+              </ul>
           </div>
           <div class="col-lg-5">
               <div class="predict-select">

@@ -7,4 +7,5 @@ public class SV { //static value
 	public static String DB_SCHEME = "logvisualization";
 	public static String DB_USERNAME = "root";
 	public static String DB_PASSWORD = "315121";
+	public static String SPLUNK_LOCALPATH = "upload";
 }
