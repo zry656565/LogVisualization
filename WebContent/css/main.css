@@ -14,6 +14,17 @@ ul{margin:0;padding:0;list-style:none}
 label{cursor:pointer}
 #data-table tr{cursor: pointer}
 
+#console_output{
+	border:1px solid grey;
+	height:100px;
+	overflow:auto;
+}
+
+#standard_area{
+	border:1px solid grey;
+	height:120px;
+}
+	
 
 
 

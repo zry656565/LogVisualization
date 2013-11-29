@@ -1,7 +1,5 @@
 package com.LogVisualization.Servlet;
 
-import java.io.PrintWriter;
-
 import com.LogVisualization.Splunk.LogVisualizationService;
 
 public class Transmission {
@@ -15,7 +13,7 @@ public class Transmission {
 		LogVisualizationService lvs = new LogVisualizationService();
 		try {
 			//String resultStr = lvs.getSearchResult(command);
-			String resultStr = "OK, All I can tell you is that this message came from Java Function.";
+			String resultStr = "OK, this message came from a Java Function.";
 			return resultStr;
 		} catch (Exception e) {
 			e.printStackTrace();

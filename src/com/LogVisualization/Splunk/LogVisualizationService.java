@@ -10,14 +10,16 @@ import com.splunk.Job;
 import com.splunk.Service;
 import com.splunk.ServiceArgs;
 
+import com.LogVisualization.SV;
+
 public class LogVisualizationService {
 	public Service service;
 
 	public LogVisualizationService() {
 		// Create a map of arguments and add login parameters
 		ServiceArgs loginArgs = new ServiceArgs();
-		loginArgs.setUsername("admin");
-		loginArgs.setPassword("315121");
+		loginArgs.setUsername(SV.SPLUNK_USERNAME);
+		loginArgs.setPassword(SV.SPLUNK_PASSWORD);
 		loginArgs.setHost("localhost");
 		loginArgs.setPort(8089);
 

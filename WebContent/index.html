@@ -28,6 +28,7 @@
         <script type='text/javascript' src='/LogVisualization/dwr/engine.js'></script>
   		<script type='text/javascript' src='/LogVisualization/dwr/interface/Transmission.js'></script>
     	<script type='text/javascript' src='/LogVisualization/dwr/util.js'></script>
+    	<script src="js/console.js"></script>
     	<script src="js/dwr_main.js"></script>
     </head>
     <body>
@@ -112,7 +113,7 @@
                   <li><a href="#standard" data-toggle="tab">Standard</a></li>
                   <div class="tab-content">
                       <div class="tab-pane fade in" id="standard">
-                          <div class="col-sm-11" style="border:1px solid grey;">
+                          <div class="col-sm-11" id="standard_area">
                               <p>
                                   [HELLO]
                               </p>
@@ -120,7 +121,7 @@
                       </div>
                       <div class="tab-pane active fade in" id="console">
                           <input type="text" class="col-sm-11" id='console_input' placeholder="Please input your instruction."/>
-                          <div class="col-sm-11" style="border:1px solid grey; height:100px;" id="console_output">
+                          <div class="col-sm-11" id="console_output">
                           </div>
                       </div>
                   </div>
