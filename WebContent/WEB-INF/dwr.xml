@@ -10,5 +10,14 @@
     <create creator="new" javascript="Transmission">
       <param name="class" value="com.LogVisualization.Servlet.Transmission"/>
     </create>
+    <create creator="new" javascript="FileUtils">
+      <param name="class" value="com.LogVisualization.Servlet.SourceFileUtils" />
+    </create>
+    <create creator="new" javascript="Prediction">
+      <param name="class" value="com.LogVisualization.Servlet.Prediction"/>
+    </create>
+    <create creator="new" javascript="Tool">
+      <param name="class" value="com.LogVisualization.Utils.Tool"/>
+    </create>
   </allow>
 </dwr>

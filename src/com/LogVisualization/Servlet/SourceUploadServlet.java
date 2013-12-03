@@ -16,9 +16,9 @@ import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
-import com.LogVisualization.SV;
 import com.LogVisualization.DAO.SourceDAO;
 import com.LogVisualization.Splunk.LogVisualizationService;
+import com.LogVisualization.Utils.SV;
 
 @WebServlet("/SourceUpload")
 public class SourceUploadServlet extends HttpServlet {
@@ -66,7 +66,7 @@ public class SourceUploadServlet extends HttpServlet {
 //					InputStream in = item.getInputStream();
 //					int length = 0;
 //					byte[] buf = new byte[1024];
-//					System.out.println("»ñÈ¡ÉÏ´«ÎÄ¼þµÄ×Ü¹²µÄÈÝÁ¿£º" + item.getSize());
+//					System.out.println("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½" + item.getSize());
 //					while ((length = in.read(buf)) != -1) {
 //						out.write(buf, 0, length);
 //					}
@@ -81,13 +81,13 @@ public class SourceUploadServlet extends HttpServlet {
 
 			// call splunk
 			LogVisualizationService s = new LogVisualizationService();
-			s.Import(sourcename, uploadDir.getAbsolutePath() + "/" + filename);
+			s.Import(sourcename, uploadDir.getAbsolutePath() + SV.CONSTANT_SLASH + filename);
 			Thread.sleep(500);
 			String result = s.getSearchResult("search index=" + sourcename);
 
 			// call database
 			SourceDAO sourceDAO = new SourceDAO();
-			sourceDAO.createSource(sourcename, path + "/" + filename,
+			sourceDAO.createSource(sourcename, path + SV.CONSTANT_SLASH + filename,
 					"initialized", SV.DEFUALT_USERNAME);
 
 			response.setContentType("text/html");

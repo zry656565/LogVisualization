@@ -18,7 +18,9 @@
         </style>
         <link rel="stylesheet" href="css/bootstrap-theme.min.css">
         <link rel="stylesheet" href="css/main.css">
-
+        <link href="css/bootstrap2_3_1.css" rel="stylesheet">
+        <script type="text/javascript" src="js/vendor/bootstrap-modal.js"></script>
+         <script type="text/javascript" src="js/vendor/bootstrap-transition.js"></script>
         <script src="js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
         <script src="js/vendor/jquery-1.10.1.min.js"></script>
         <script src="js/vendor/bootstrap.min.js"></script>

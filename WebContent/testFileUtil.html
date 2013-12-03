@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Test Files</title> 
+    <script type='text/javascript' src='/VisulizeData/dwr/util.js'></script>
+    <script type='text/javascript' src='/VisulizeData/dwr/engine.js'></script>
+  	<script type='text/javascript' src='/VisulizeData/dwr/interface/FileUtils.js'></script>
+  	
+  	<script type='text/javascript'>
+  		function uploadFile() {
+  			var file = dwr.util.getValue("attach");
+  			var name = dwr.util.getValue("sourcename");
+  			var fileArr = new Array();
+  			fileArr[0] = file;
+  			FileUtils.uploadFile(fileArr, name, {
+  				callback: function(data) {
+  					alert(data);
+  				}
+  			});
+  		}
+  	</script>
+  	
+</head>
+<body>
+	<input type="file" name="attach" /> 
+	<input type="text" name="sourcename" />
+    <br /> 
+    <input type="button" name="btnSub" onclick="uploadFile()" value="文件上传" /> 
+</body>
+</html>

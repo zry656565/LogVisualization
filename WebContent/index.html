@@ -25,9 +25,13 @@
         <script src="js/main.js"></script>
         <script src="js/iCheck/jquery.icheck.js"></script>
         
-        <script type='text/javascript' src='/LogVisualization/dwr/engine.js'></script>
-  		<script type='text/javascript' src='/LogVisualization/dwr/interface/Transmission.js'></script>
-    	<script type='text/javascript' src='/LogVisualization/dwr/util.js'></script>
+        <script type='text/javascript' src='/Version1/dwr/engine.js'></script>
+  		<script type='text/javascript' src='/Version1/dwr/interface/Transmission.js'></script>
+		<script type='text/javascript' src='/Version1/dwr/interface/FileUtils.js'></script>
+    	<script type='text/javascript' src='/Version1/dwr/interface/Prediction.js'></script>
+    	<script type='text/javascript' src='/Version1/dwr/interface/Tool.js'></script>
+    	<script type='text/javascript' src='/Version1/dwr/util.js'></script>
+		<script src="js/fileutils.js"></script>
     	<script src="js/console.js"></script>
     	<script src="js/dwr_main.js"></script>
     </head>
@@ -74,7 +78,7 @@
       <div class="row">
         <div class="col-lg-7">
           <h2>Visualization</h2>
-          <canvas id="canvas" width="620px" height="400px"></canvas>
+          <canvas id="canvas" width="620px" height="320px"></canvas>
         </div>
         <div class="col-lg-5">
           <h2>Import Data</h2>
@@ -100,8 +104,34 @@
               <td>fail</td>
             </tr>
           </table>
-          <a class="btn btn-default" href="#">View details &raquo;</a>  &nbsp;
-          <a class="btn btn-default" href="#">Import New Source</a>
+          <!--a class="btn btn-default" href="#">View details &raquo;</a>  &nbsp;-->
+          <a class="btn btn-primary" href="#"  data-toggle="modal" data-target="#myModal">Import New Source</a>
+          <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title" id="myModalLabel">Import New Source</h4>
+                        </div>
+                        <form action="SourceUpload" enctype="multipart/form-data"  method="post">
+                            <div class="modal-body">
+                                <div class="input-group input-group-lg">
+                                    <span class="input-group-addon">数据源名</span>
+                                    <input type="text" class="form-control" placeholder="Please Input Source Name" name="sourcename">
+                                </div>
+                                <div class="input-group input-group-lg">
+                                    <span class="input-group-addon">上传文件</span>
+                                    <input type="file" class="form-control" name="file1">
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary" onclick="uploadFile()">Save</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+          </div>
         </div>
       </div>
 
@@ -130,20 +160,21 @@
           <div class="col-lg-5">
               <div class="predict-select">
                   <h2>Prediction</h2>
-                      <ul>
-                          <li>
-                              <input type="radio" name="predict-radio" id="predict-linear" checked>
-                              <label for="predict-linear">Linear</label>
-                          </li>
-                          <li>
-                              <input type="radio" name="predict-radio" id="predict-quadratic">
-                              <label for="predict-quadratic">Quadratic Curve</label>
-                          </li>
-                          <li>
-                              <input type="radio" name="predict-radio" id="predict-custom">
-                              <label for="predict-custom">Custom</label>
-                          </li>
-                    </ul>
+                  <ul>
+                      <li>
+                          <input type="radio" name="predict-radio" id="predict-linear" checked>
+                          <label id="linear_pre" for="predict-linear">Linear</label>
+                      </li>
+                      <li>
+                          <input type="radio" name="predict-radio" id="predict-quadratic">
+                          <label for="predict-quadratic">Quadratic Curve</label>
+                      </li>
+                      <li>
+                          <input type="radio" name="predict-radio" id="predict-custom">
+                          <label for="predict-custom">Custom</label>
+                      </li>
+                </ul>
+                <a class="btn btn-default" href="#">Submit &raquo;</a>
               </div>
           </div>
       </div>

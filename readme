@@ -13,3 +13,17 @@ by Jerry Zou
 3. 覆盖好以后，你需要refresh你的项目，这时候会报错。因为jar包的依赖还没有加好。
 4. 把lib文件夹内所有的jar加入java build path的依赖。
 5. init_source.sql用于数据库建表，直接放到mySQL中运行即可。
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Update by 2013/12/2
+你要运行现在的合并版本，
+1).首先你可能需要修改com.LogVisualization.SV中的变量，注释可能会给你一些帮助。
+2).你需要查看一下com.LogVisualization.Servlet.Transmission.java这个文件。
+比较重要的是在public String sendCommand(String command)这个函数中，有这样一段代码片段：
+1   //if you don't meet the error about XML parsing, use the code below
+2   //String resultStr = lvs.getSearchResult(command);
+3   //else, the only thing you can do is directly using the result string
+4   String resultStr = "{\"key\":[\"req_time\",\"count(clientip)\"],\"value\":[\"30/Apr/1998:21:00:00 +0000 \",\"324\",\"30/Apr/1998:22:00:00 +0000 \",\"676\"],\"numOfFields\":2,\"step\":1,\"unit\":\"h\"}";
+因为某些未知Bug，我们直接返回结果字符串（而不是让splunk运算一遍）。
+如果后面我们修复了这个问题，请将第2行的代码解除注释。并把第四行代码注释。
+

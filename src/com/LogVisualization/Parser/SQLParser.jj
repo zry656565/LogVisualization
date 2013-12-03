@@ -1,0 +1,429 @@
+options {
+IGNORE_CASE = true;
+STATIC = false;
+UNICODE_INPUT = true;
+// some performance optimizations
+ERROR_REPORTING = false;
+}
+PARSER_BEGIN(SQLParser)
+package com.LogVisualization.Parser;
+public class SQLParser
+{
+	public static void main(String args[]) throws ParseException
+	{
+	  	SQLParser parser = new SQLParser(System.in);
+	  	while (true)
+	    {
+	        parser.parseOneLine();
+	    }
+	}
+}
+PARSER_END(SQLParser)
+SKIP:
+{
+    " "
+|   "\t"
+|   "\r"
+}
+SKIP:
+{
+   <LINE_COMMENT: "--"(~["\r","\n"])*>
+|  <MULTI_LINE_COMMENT: "/*" (~["*"])* "*" ("*" | (~["*","/"] (~["*"])* "*"))* "/">
+}
+TOKEN:// KEYWORDS
+{
+  <AND: "and">
+| <AS: "as">
+| <ASC: "asc">
+| <AVG: "avg">
+| <BETWEEN: "between">
+| <BY: "by">
+| <COUNT: "count">
+| <DESC: "desc">
+| <DISTINCT: "distinct">
+| <FIRST: "first">
+| <FROM: "from">
+| <GROUP: "group">
+| <HAVING: "having">
+| <INNER: "inner">
+| <JOIN: "join">
+| <LAST: "last">
+| <LEFT: "left">
+| <LIKE: "like">
+| <MAX: "MAX" >
+| <MIN: "MIN">
+| <NOT: "not">
+| <OR: "or">
+| <ORDER: "order">
+| <SELECT: "select">
+| <SUM: "sum">
+| <TOP: "top">
+| <WHERE: "where">
+}
+
+TOKEN://other commands
+{
+  <CHARTTYPE: "charttype">
+| <DATASOURCE: "datasource">
+| <INDEX: "index">
+| <EARLIEST: "earlist">
+| <FIELDS: "fields">
+| <HELP: "help">
+| <HOUR: "h">
+| <LASTEST: "latest">
+| <LS: "ls" >
+| <LOGIN: "login">
+| <LOGOUT: "logout">
+| <Min: "min">
+| <SEARCH: "search">
+| <SEC: "sec">
+| <STATS: "stats">
+| <STEP: "step">
+| <SET: "set">
+| <X: "x">
+| <Y: "y">
+| <Z: "z">
+}
+
+TOKEN://MONTH
+{
+  < JAN: "Jan">
+| < FEB: "Feb">
+| < MAR: "Mar">
+| < APR: "Apr">
+| < MAY: "May">
+| < JUN: "Jun">
+| < JUL: "Jul">
+| < AUG: "Aug">
+| < SEP: "Sep">
+| < OCT: "Oct">
+| < NOV: "Nov">
+| < DEC: "Dec">
+}
+
+TOKEN:// LITERALS
+{
+  
+<INTEGER_LITERAL:(["0"-"9"])+>
+| <FLOATING_POINT_LITERAL:(["0"-"9"])+"."(["0"-"9"])+(<EXPONENT>)?
+| "."(["0"-"9"])+(<EXPONENT>)?
+| (["0"-"9"])+<EXPONENT>
+| (["0"-"9"])+(<EXPONENT>)?>
+| <#EXPONENT:["e", "E"](["+", "-"])?(["0"-"9"])+>
+| <STRING_LITERAL:"'"(~["'"])*("''"(~["'"])*)*"'">
+}
+
+TOKEN:// IDENTIFIERS
+{
+<ID:(<LETTER>)+("_"| "$" | "#" | <DIGIT> | <LETTER>)*>
+| <#LETTER:["A"-"Z", "a"-"z"]>
+| <#DIGIT:["0"-"9"]>
+}
+
+
+
+TOKEN:// SEPARATORS AND OPERATORS
+{
+ <COLON:":">
+| <COMMA: ",">
+| <LESS: "<">
+| <LESSEQUAL: "<=">
+| <GREATER: ">">
+| <GREATEREQUAL: ">=">
+| <EQUAL: "=">
+| <NOTEQUAL: "!=">
+| <OPENPAREN: "(">
+| <CLOSEPAREN:")">
+| <ASTERISK:"*">
+| <SLASH:"/">
+| <PLUS:"+">
+| <MINUS:"-">
+| <QUESTIONMARK:"?">
+| <LQUOTATION:"\"">
+| < EOL: "\n" >
+}
+String parseOneLine():
+{
+    String a;
+}
+{
+    a=expr() (<EOL>|<EOF>)      { return a; }
+  | <EOL>
+  | <EOF>               { System.exit(-1); }
+}
+
+String expr():
+{
+  String s;
+}
+{
+ s = help() {return s;}
+| s = set() {return s;}
+| s = ls() {return s;}
+| s = select() {return s;}
+}
+
+String select():
+{
+  Token t;
+  String fi="",fu="",where="",groupby="",orderby="";
+  String FI="|FIELDS ";
+  String FU="";
+  String r="search ";
+  String index=" index=";
+  String step="";
+}
+{
+  	<SELECT>(fi=fields(){FI+=fi;}|fu=func(){FI+=fu;FU+=fu;})(t=<COMMA>{FI+=t.toString();}(fi=fields(){FI+=fi;}|fu=func(){FI+=fu;FU+=" "+fu;}))*<FROM>{index+=identifier();}[where=where()][groupby=groupby()][orderby=orderby()][step=step()]
+	{
+	  if (index != "index=")
+	  {
+		r+=index+" ";
+	  }
+	  if (where != "")
+	  {
+		r+=where;
+	  }
+	  if(FU!="")
+	  {
+	    r+="|STATS "+FU;
+	    if (groupby!="")
+	  	{
+			r+=" "+groupby;
+	  	}
+	  	
+	  }
+	  if(orderby!="")
+  	  {
+		  r+=orderby;
+  	  }
+	  r+=FI;
+	  if(step!="")
+	  {
+	    r+=" "+step;
+	  }
+	  return r;
+	 }
+}
+String where():
+{
+  String result="";
+  String s="";
+  Token t = null;
+}
+{
+	LOOKAHEAD(2)<WHERE>s=condition(){result+=s;}(LOOKAHEAD(1)t=<AND>s=condition(){result+=" "+(t.toString()).toUpperCase()+" "+s;}|
+							t=<OR>s=condition(){result+=" "+(t.toString()).toUpperCase()+" "+s;})*
+	{return result;}
+|LOOKAHEAD(2) <WHERE>s=between(){return s;}
+}
+String condition():
+{
+  String s1, s2, s3;
+  Token t1, t2, t3;
+}
+{
+ LOOKAHEAD(2)s1=attribute()t1=<LIKE>s2=pattern(){return s1+t1.toString()+s2;}
+|LOOKAHEAD(3)s1=attribute()t1=<EQUAL>t2=<FLOATING_POINT_LITERAL>{return s1+t1.toString()+t2.toString();}
+|LOOKAHEAD(4)s1=attribute()t1=<EQUAL>s2=time(){return s1+t1.toString()+s2.toString();}
+|LOOKAHEAD(3)s1=attribute()t1=<EQUAL>t2=<INTEGER_LITERAL>{return s1+t1.toString()+t2.toString();}
+|LOOKAHEAD(2)s1=attribute()t1=<EQUAL>t2=<ASTERISK>{return s1+t1.toString()+t2.toString();}
+|LOOKAHEAD(3)s1=attribute()t1=<LESSEQUAL>t2=<FLOATING_POINT_LITERAL>{return s1+t1.toString()+t2.toString();}
+|LOOKAHEAD(4)s1=attribute()t1=<LESSEQUAL>s2=time(){return s1+t1.toString()+s2;}
+|LOOKAHEAD(3)s1=attribute()t1=<LESSEQUAL>t2=<INTEGER_LITERAL>{return s1+t1.toString()+t2.toString();}
+|LOOKAHEAD(3)s1=attribute()t1=<LESS>t2=<FLOATING_POINT_LITERAL>{return s1+t1.toString()+t2.toString();}
+|LOOKAHEAD(4)s1=attribute()t1=<LESS>s2=time(){return s1+t1.toString()+s2;}
+|LOOKAHEAD(3)s1=attribute()t1=<LESS>t2=<INTEGER_LITERAL>{return s1+t1.toString()+t2.toString();}
+|LOOKAHEAD(3)s1=attribute()t1=<GREATEREQUAL>t2=<FLOATING_POINT_LITERAL>{return s1+t1.toString()+t2.toString();}
+|LOOKAHEAD(4)s1=attribute()t1=<GREATEREQUAL>s2=time(){return s1+t1.toString()+s2;}
+|LOOKAHEAD(3)s1=attribute()t1=<GREATEREQUAL>t2=<INTEGER_LITERAL>{return s1+t1.toString()+t2.toString();}
+|LOOKAHEAD(3)s1=attribute()t1=<GREATER>t2=<FLOATING_POINT_LITERAL>{return s1+t1.toString()+t2.toString();}
+|LOOKAHEAD(4)s1=attribute()t1=<GREATER>s2=time(){return s1+t1.toString()+s2;}
+|LOOKAHEAD(3)s1=attribute()t1=<GREATER>t2=<INTEGER_LITERAL>{return s1+t1.toString()+t2.toString();}
+}
+
+String between():
+{
+  Token t1,t2;
+  Token bet, and;
+  String s;
+}
+{
+  s=identifier()bet=<BETWEEN>(t1=<INTEGER_LITERAL>|t1=<FLOATING_POINT_LITERAL>)and=<AND>(t2=<INTEGER_LITERAL>|t2=<FLOATING_POINT_LITERAL>)
+	{
+	  return s+">="+t1.toString()+" "+and.toString()+" "+s+"<="+t2.toString();
+	}
+}
+
+String orderby():
+{
+  String s, r="";
+  Token t;
+}
+{
+  <ORDER><BY>s=attribute()(t=<ASC>{r+="|SORT "+s;}|t=<DESC>{r+="|SORT -"+s;}){return r;}
+}
+
+String func():
+{
+  String r="";
+  String s="";
+  Token t;
+}
+{
+	t=<COUNT><OPENPAREN>s=identifier()<CLOSEPAREN>{return r+=t.toString()+"("+s+")";}
+| t =<MAX><OPENPAREN>s=identifier()<CLOSEPAREN>{return r+=t.toString()+"("+s+")";}
+| t =<MIN><OPENPAREN>s=identifier()<CLOSEPAREN>{return r+=t.toString()+"("+s+")";}
+}
+
+String groupby():
+{
+  String r="";
+  String s="";
+  Token t;
+}
+{
+  <GROUP>t=<BY>s=identifier()
+  {return t.toString()+" "+s;} 
+}
+
+String fields():
+{
+	String r="";
+	Token t;
+	String s="";
+}
+{
+	t=<ASTERISK>{return r=t.toString();}
+| s=identifier(){r=s;return r;}
+}
+
+String help():
+{
+  Token t;
+}
+{
+  t = <HELP>{ return t.toString(); }
+}
+
+String ls():
+{
+  String s;
+}
+{
+  <LS>s=ls_operand(){return s;}
+}
+
+String loginout():
+{
+  String s;
+  Token t;
+}
+{
+ t = <LOGOUT>{return t.toString();}
+|<LOGIN>s=identifier(){return s;}
+}
+
+String set():
+{
+  String s1;
+}
+{
+  <SET>ls_operand()<EQUAL>s1=identifier(){return s1.toString();}
+}
+
+String ls_operand():
+{
+  Token t;
+}
+{
+  t = <CHARTTYPE>{return t.toString();}
+| t = <DATASOURCE>{return t.toString();}
+| t = <FIELDS>{return t.toString();}
+}
+
+String attribute():
+{
+  String s;
+}
+{
+  s = identifier(){return s;}
+}
+
+String pattern():
+{
+  Token t1, t2,t3;
+  String s;
+}
+{
+	t1=<LQUOTATION>s=identifier()t3=<LQUOTATION>
+	{
+	  return t1.toString()+s+t3.toString();
+	}
+}
+
+String time():
+{
+  String month,slash,day,inter_literal,colon,hour,minute,second;
+  Token slash_t,day_t,int_t,colon_t,hour_t,minute_t,second_t;
+  String result="";
+}
+{
+ day_t=<INTEGER_LITERAL>slash_t=<SLASH>month=month()<SLASH>int_t=<INTEGER_LITERAL>colon_t=<COLON>hour_t=<INTEGER_LITERAL><COLON>minute_t=<INTEGER_LITERAL><COLON>second_t=<INTEGER_LITERAL>
+ {
+   slash = slash_t.toString();
+   day = day_t.toString(); result += day;
+   result += slash;
+   result+=month;
+   result += slash;
+   inter_literal = int_t.toString(); result += inter_literal;
+   colon = colon_t.toString(); result += colon;
+   hour = hour_t.toString(); result += hour;
+   result += colon;
+   minute = minute_t.toString(); result += minute;
+   result += colon;
+   second = second_t.toString(); result += second;
+   return result;
+ }
+}
+String month():
+{
+  Token t;
+}
+{
+  t = < JAN> {return t.toString();}
+| t = < FEB > {return t.toString();}
+| t = < MAR > {return t.toString();}
+| t = < APR > {return t.toString();}
+| t = < MAY > {return t.toString();}
+| t = < JUN > {return t.toString();}
+| t = < JUL > {return t.toString();}
+| t = < AUG > {return t.toString();}
+| t = < SEP > {return t.toString();}
+| t = < OCT > {return t.toString();}
+| t = < NOV > {return t.toString();}
+| t = < DEC > {return t.toString();}
+}
+String identifier():
+{
+  Token t;
+}
+{
+	t=<ID>{return t.toString();}
+}
+
+String step():
+{
+	Token t,t1,t2;
+	String s="";
+}
+{
+	t=<STEP><EQUAL>(t1=<INTEGER_LITERAL>|t1=<FLOATING_POINT_LITERAL>)(t2=<HOUR>|t2=<Min>|t2=<SEC>)
+	{
+	  s+=t.toString();
+	  s+="=";
+	  s+=t1.toString();
+	  s+=t2.toString();
+	  return s;
+	}
+}

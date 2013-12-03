@@ -8,9 +8,9 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.LogVisualization.SV;
 import com.LogVisualization.Bean.Source;
 import com.LogVisualization.IDAO.ISourceDAO;
+import com.LogVisualization.Utils.SV;
 
 public class SourceDAO implements ISourceDAO {
 
