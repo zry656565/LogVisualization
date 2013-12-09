@@ -10,6 +10,10 @@ public class SV { //static value
 	public static String DB_USERNAME = "root";
 	public static String DB_PASSWORD = "315121";
 	public static String SPLUNK_USERNAME = "admin";
-	public static String SPLUNK_PASSWORD = "199203";
-	public static String CONSTANT_SLASH = "/"; //if your os is Unix like, change to "/".
+	public static String SPLUNK_PASSWORD = "315121";
+	public static String CONSTANT_SLASH = "\\"; //if your os is Unix like, change to "/".
+	public static String MONGODB_HOST = "localhost";
+	public static int MONGODB_PORT = 27017;
+	public static String MONGODB_DBNAME = "logvisualization";
+	
 }

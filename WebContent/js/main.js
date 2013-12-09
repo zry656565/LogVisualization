@@ -62,7 +62,7 @@ $(document).ready(function(){
     });
 });
 $(function () {
-    $('#para-tab a:first').tab('show');//���������������������tab
+    $('#para-tab a:first').tab('show');//初始化显示哪个tab
 })
 
 function login()
